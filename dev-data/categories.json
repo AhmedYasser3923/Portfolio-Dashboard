@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Web Development",
+    "description": "Projects focused on building responsive and dynamic websites using modern web technologies such as Angular, React, and Node.js.",
+    "imageIcon": "https://cdn-icons-png.flaticon.com/512/919/919827.png"
+  },
+  {
+    "name": "Mobile Applications",
+    "description": "Cross-platform mobile app development for Android and iOS using Flutter, React Native, or native technologies.",
+    "imageIcon": "https://cdn-icons-png.flaticon.com/512/919/919836.png"
+  },
+  {
+    "name": "UI/UX Design",
+    "description": "Creative and user-centered design solutions with focus on intuitive interfaces and seamless experiences.",
+    "imageIcon": "https://cdn-icons-png.flaticon.com/512/1828/1828919.png"
+  },
+  {
+    "name": "Machine Learning",
+    "description": "AI-driven projects using Python, TensorFlow, and Scikit-learn to create predictive models and intelligent systems.",
+    "imageIcon": "https://cdn-icons-png.flaticon.com/512/4140/4140048.png"
+  },
+  {
+    "name": "Backend Development",
+    "description": "APIs, authentication systems, and server-side logic built with Node.js, Express, and MongoDB.",
+    "imageIcon": "https://cdn-icons-png.flaticon.com/512/2906/2906274.png"
+  },
+  {
+    "name": "Cloud & DevOps",
+    "description": "Deployment, monitoring, and automation solutions using AWS, Docker, CI/CD pipelines, and Kubernetes.",
+    "imageIcon": "https://cdn-icons-png.flaticon.com/512/3079/3079046.png"
+  },
+  {
+    "name": "Data Visualization",
+    "description": "Interactive dashboards and analytics tools built with D3.js, Chart.js, and Python visualization libraries.",
+    "imageIcon": "https://cdn-icons-png.flaticon.com/512/2620/2620371.png"
+  },
+  {
+    "name": "Cybersecurity",
+    "description": "Security audits, penetration testing, and secure application architecture for client projects.",
+    "imageIcon": "https://cdn-icons-png.flaticon.com/512/3064/3064197.png"
+  }
+]
