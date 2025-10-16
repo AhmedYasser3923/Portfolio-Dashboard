@@ -1,6 +1,10 @@
 const express = require("express");
 const categoryController = require("../controllers/categoryContoller");
 const router = express.Router();
+const uploadCategoryPhoto = require("../storage/middlewareStorage/uploadCategoryPhoto");
+const authController = require("../controllers/authController");
+
+router.use(authController.restrictTo("admin", "super-admin"));
 
 // Routes for categories
 router
@@ -14,5 +18,13 @@ router
   .get(categoryController.getCategory)
   .patch(categoryController.updateCategory)
   .delete(categoryController.deleteCategory);
+
+router.patch(
+  "/:id/updateIcon",
+  uploadCategoryPhoto.uploadCategoryPhoto,
+  uploadCategoryPhoto.updateCategoryPhoto
+);
+
+router.delete("/:id/deleteIcon", uploadCategoryPhoto.deleteCategoryPhoto);
 
 module.exports = router;

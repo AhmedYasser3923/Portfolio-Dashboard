@@ -1,47 +1,12 @@
 const Project = require("../models/projectModel");
-
+const APIFeatures = require("../utils/ApiFeatures");
 // Get all projects
 exports.getAllProjects = async (req, res) => {
   try {
-    // Build query
-    const queryObj = { ...req.query };
-    // 1. Filtering
-    const excludedFields = ["page", "sort", "limit", "fields"];
-    excludedFields.forEach((el) => delete queryObj[el]);
-
-    // 2. Advanced filtering
-    let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-    let query = Project.find(JSON.parse(queryStr));
-
-    // 3. Sorting
-    if (req.query.sort) {
-      const sortBy = req.query.sort.split(",").join(" ");
-      query = query.sort(sortBy);
-    } else {
-      query = query.sort("-createdAt");
-    }
-
-    // 4. Field limiting
-    if (req.query.fields) {
-      const fields = req.query.fields.split(",").join(" ");
-      query = query.select(fields);
-    } else {
-      query = query.select("-__v");
-    }
-
-    // 5. Pagination
-    const page = req.query.page * 1 || 1;
-    const limit = req.query.limit * 1 || 100;
-    const skip = (page - 1) * limit;
-    query = query.skip(skip).limit(limit);
-    if (req.query.page) {
-      const numProjects = await Project.countDocuments();
-      if (skip >= numProjects) throw new Error("This page does not exist");
-    }
-
     // Execute query
-    const projects = await query;
+    const features = new APIFeatures(Project.find(), req.query);
+    features.filter().sort().limitFields().paginate();
+    const projects = await features.query;
     res.status(200).json({
       status: "success",
       results: projects.length,
