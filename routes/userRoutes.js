@@ -7,7 +7,7 @@ const uploadUserPhoto = require("../storage/middlewareStorage/uploadUserPhoto");
 router.post("/login", authController.login);
 router.post("/forgotPassword", authController.forgotPassword);
 router.patch("/resetPassword/:token", authController.resetPassword);
-
+router.get("/logout", authController.logout);
 // Protected routes (logged-in admins only)
 router.use(authController.protect);
 
