@@ -15,7 +15,7 @@ router.use(authController.protect);
 router.patch("/updateMyPassword", authController.updatePassword);
 router.patch("/updateMe", userController.updateMe);
 
-router.use(authController.restrictTo("admin", "super-admin"));
+router.use(authController.restrictTo("admin", "superAdmin"));
 
 router.patch(
   "/updateMyPhoto",
@@ -26,7 +26,7 @@ router.patch(
 router.delete("/deleteMyPhoto", uploadUserPhoto.deleteUserPhoto);
 
 // Restrict everything below to super-admins only
-router.use(authController.restrictTo("super-admin"));
+router.use(authController.restrictTo("superAdmin"));
 
 router
   .route("/")

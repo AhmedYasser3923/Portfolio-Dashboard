@@ -5,7 +5,7 @@ const uploadCategoryPhoto = require("../storage/middlewareStorage/uploadCategory
 const authController = require("../controllers/authController");
 
 router.use(authController.protect);
-router.use(authController.restrictTo("admin", "super-admin"));
+router.use(authController.restrictTo("admin", "superAdmin"));
 
 // Routes for categories
 router

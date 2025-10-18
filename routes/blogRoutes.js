@@ -5,8 +5,7 @@ const uploadBlogMedia = require("../storage/middlewareStorage/uploadBlogMedia");
 const authController = require("../controllers/authController");
 
 router.use(authController.protect);
-router.use(authController.restrictTo("admin", "super-admin"));
-
+router.use(authController.restrictTo("admin", "superAdmin"));
 
 router
   .route("/")
