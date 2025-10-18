@@ -2,7 +2,7 @@
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
 const app = require("./app");
-
+console.log("🧩 JWT_SECRET:", process.env.JWT_SECRET);
 // Database connection
 const mongoose = require("mongoose");
 const DB = process.env.DATABASE.replace(
