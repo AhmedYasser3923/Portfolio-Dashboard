@@ -1,7 +1,11 @@
 // Server
-const dotenv = require("dotenv");
-dotenv.config({ path: "./config.env" });
 const app = require("./app");
+
+if (process.env.NODE_ENV !== "production") {
+  const dotenv = require("dotenv");
+  dotenv.config({ path: "./config.env" });
+}
+
 console.log("🧩 JWT_SECRET:", process.env.JWT_SECRET);
 // Database connection
 const mongoose = require("mongoose");
