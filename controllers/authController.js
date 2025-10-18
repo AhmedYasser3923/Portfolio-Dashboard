@@ -14,14 +14,16 @@ const signToken = (id) => {
 
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
+
+  // Convert env variable to a number, fallback to 2 days if invalid
+  const cookieExpiresInDays = Number(process.env.JWT_COOKIE_EXPIRES_IN) || 2;
+
   const cookieOptions = {
-    expires: new Date(
-      Date.now() +
-        Number(process.env.JWT_COOKIE_EXPIRES_IN) * 24 * 60 * 60 * 1000
-    ),
+    expires: new Date(Date.now() + cookieExpiresInDays * 24 * 60 * 60 * 1000),
     httpOnly: true,
   };
 
+  // Use secure cookies in production (HTTPS required)
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
 
   res.cookie("jwt", token, cookieOptions);
@@ -32,11 +34,10 @@ const createSendToken = (user, statusCode, res) => {
   res.status(statusCode).json({
     status: "success",
     token,
-    data: {
-      user,
-    },
+    data: { user },
   });
 };
+
 //  Login
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
