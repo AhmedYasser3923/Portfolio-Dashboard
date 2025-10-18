@@ -5,12 +5,17 @@ const projectRouter = require("./routes/projectRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
 const blogRouter = require("./routes/blogRoutes");
 const userRouter = require("./routes/userRoutes");
+const cors = require("cors");
+
 // middleware
 console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 app.use(express.json());
+
+// Allow all origins (development)
+app.use(cors());
 
 app.use("/api/projects", projectRouter);
 app.use("/api/categories", categoryRouter);

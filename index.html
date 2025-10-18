@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Login</title>
+  </head>
+  <body>
+    <form id="loginForm">
+      <input type="email" name="email" value="ahmedyasser393923@gmail.com" />
+      <input type="password" name="password" value="Admin12345678#" />
+      <button type="submit">Login</button>
+    </form>
+
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const email = e.target.email.value;
+          const password = e.target.password.value;
+
+          // Step 1: Log in and get the token
+          const loginRes = await fetch(
+            "https://portfolio-dashboard-production-5ced.up.railway.app/api/users/login",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email, password }),
+            }
+          );
+
+          const loginData = await loginRes.json();
+          console.log("Login Response:", loginData);
+
+          // Extract token
+          const token = loginData.token;
+          if (!token) {
+            console.error("No token received!");
+            return;
+          }
+
+          // Step 2: Use the token to access protected route
+          const projectsRes = await fetch(
+            "https://portfolio-dashboard-production-5ced.up.railway.app/api/projects",
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`, // send token here
+              },
+            }
+          );
+
+          const projectsData = await projectsRes.json();
+          console.log("Projects Response:", projectsData);
+        });
+    </script>
+  </body>
+</html>
