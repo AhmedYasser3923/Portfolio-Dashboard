@@ -39,10 +39,20 @@ const createSendToken = (user, statusCode, res) => {
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
+  console.log("🧩 JWT_SECRET:", process.env.JWT_SECRET);
+  console.log("🧠 Incoming email:", email);
+
   if (!email || !password) {
     return next(new AppError("Please provide email and password!", 400));
   }
+
   const user = await User.findOne({ email }).select("+password");
+  console.log("🧠 Found user:", user ? user.email : "none");
+
+  if (user) {
+    const isMatch = await user.correctPassword(password, user.password);
+    console.log("🧠 Password match:", isMatch);
+  }
 
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Incorrect email or password", 401));
