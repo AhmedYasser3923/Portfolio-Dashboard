@@ -4,7 +4,9 @@ const router = express.Router();
 const uploadProjectMedia = require("../storage/middlewareStorage/uploadProjectMedia");
 const authController = require("../controllers/authController");
 
+router.use(authController.protect);
 router.use(authController.restrictTo("admin", "super-admin"));
+
 
 // Routes for projects
 router
