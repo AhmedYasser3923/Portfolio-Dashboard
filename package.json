@@ -7,9 +7,10 @@
   "type": "commonjs",
   "main": "app.js",
   "scripts": {
-    "start": "npm start node server.js",
+    "start": "node server.js",
     "test": "nodemon server.js",
-    "start:dev": "nodemon server.js"
+    "start:dev": "nodemon server.js",
+    "build": "echo 'No build step required'"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
