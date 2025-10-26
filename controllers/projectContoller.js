@@ -92,8 +92,3 @@ exports.deleteProject = async (req, res) => {
     });
   }
 };
-// Get projects by category
-
-// Get featured projects
-
-// Search projects by title or technologies

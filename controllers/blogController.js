@@ -4,13 +4,12 @@ const APIFeatures = require("../utils/ApiFeatures");
 // Get all blog posts
 exports.getAllBlogs = async (req, res) => {
   try {
-    // Execute query
     const features = new APIFeatures(Blog.find(), req.query);
     features.filter().sort().limitFields().paginate();
     const blogs = await features.query;
     res.status(200).json({
       status: "success",
-      results: Blog.length,
+      results: blogs.length,
       data: { blogs },
     });
   } catch (err) {
@@ -21,10 +20,28 @@ exports.getAllBlogs = async (req, res) => {
     });
   }
 };
+
+// Get single blog
+exports.getBlog = async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+    if (!blog)
+      return res
+        .status(404)
+        .json({ status: "fail", message: "Blog not found" });
+    res.status(200).json({ status: "success", data: { blog } });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: "Invalid data sent!",
+      messageERR: err.message,
+    });
+  }
+};
+
 // Create a new blog post
 exports.createBlog = async (req, res) => {
   try {
-    // Ensure the authenticated user's name is used
     if (!req.user) {
       return res.status(401).json({
         status: "fail",
@@ -34,7 +51,7 @@ exports.createBlog = async (req, res) => {
 
     const newBlog = await Blog.create({
       ...req.body,
-      author: req.user.username || req.user.name, // use user's name or username
+      author: req.user.username || req.user.name,
     });
 
     res.status(201).json({
@@ -50,7 +67,7 @@ exports.createBlog = async (req, res) => {
   }
 };
 
-// Update blog by ID
+// Update blog
 exports.updateBlog = async (req, res) => {
   try {
     const blog = await Blog.findByIdAndUpdate(req.params.id, req.body, {
@@ -69,7 +86,8 @@ exports.updateBlog = async (req, res) => {
     });
   }
 };
-// Delete blog by ID
+
+// Delete blog
 exports.deleteBlog = async (req, res) => {
   try {
     await Blog.findByIdAndDelete(req.params.id);
