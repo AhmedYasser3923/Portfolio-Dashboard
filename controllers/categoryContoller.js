@@ -88,3 +88,28 @@ exports.deleteCategory = async (req, res) => {
     });
   }
 };
+
+// Get category name by ID
+exports.getCategoryName = async (req, res) => {
+  try {
+    const category = await categoryModel.findById(req.params.id).select("name");
+
+    if (!category) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Category not found!",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: { name: category.name },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: "Invalid category ID!",
+      messageERR: err.message,
+    });
+  }
+};

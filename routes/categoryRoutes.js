@@ -8,7 +8,7 @@ const checkApiKey = require("../utils/checkApiKey");
 // public routes
 router.route("/").get(checkApiKey, categoryController.getAllCategories);
 router.route("/:id").get(checkApiKey, categoryController.getCategory);
-
+router.route("/:id/name").get(checkApiKey, categoryController.getCategoryName);
 // protected routes (logged-in admins only)
 // Routes for categories
 router.use(authController.protect);

@@ -1,5 +1,6 @@
 const Blog = require("../models/blogModel");
 const APIFeatures = require("../utils/ApiFeatures");
+const user = require("../models/userModel");
 // Get all blog posts
 exports.getAllBlogs = async (req, res) => {
   try {
@@ -23,7 +24,19 @@ exports.getAllBlogs = async (req, res) => {
 // Create a new blog post
 exports.createBlog = async (req, res) => {
   try {
-    const newBlog = await Blog.create(req.body);
+    // Ensure the authenticated user's name is used
+    if (!req.user) {
+      return res.status(401).json({
+        status: "fail",
+        message: "Unauthorized — please log in first!",
+      });
+    }
+
+    const newBlog = await Blog.create({
+      ...req.body,
+      author: req.user.username || req.user.name, // use user's name or username
+    });
+
     res.status(201).json({
       status: "success",
       data: { blog: newBlog },
@@ -36,22 +49,7 @@ exports.createBlog = async (req, res) => {
     });
   }
 };
-// Get blog by ID
-exports.getBlog = async (req, res) => {
-  try {
-    const blog = await Blog.findById(req.params.id);
-    res.status(200).json({
-      status: "success",
-      data: { blog },
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: "Invalid data sent!",
-      messageERR: err.message,
-    });
-  }
-};
+
 // Update blog by ID
 exports.updateBlog = async (req, res) => {
   try {
