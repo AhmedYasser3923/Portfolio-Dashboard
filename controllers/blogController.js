@@ -1,6 +1,6 @@
 const Blog = require("../models/blogModel");
 const APIFeatures = require("../utils/ApiFeatures");
-const user = require("../models/userModel");
+
 // Get all blog posts
 exports.getAllBlogs = async (req, res) => {
   try {
