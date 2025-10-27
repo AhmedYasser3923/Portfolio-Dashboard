@@ -7,7 +7,6 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: [true, "A blog post must have a title"],
       trim: true,
-      unique: true,
     },
 
     slug: {

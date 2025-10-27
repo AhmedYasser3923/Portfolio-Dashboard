@@ -6,7 +6,6 @@ const projectSchema = new mongoose.Schema(
       type: String,
       required: [true, "A project must have a title"],
       trim: true,
-      unique: true,
     },
 
     slug: {
