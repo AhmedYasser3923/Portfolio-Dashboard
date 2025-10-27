@@ -3,10 +3,11 @@ const APIFeatures = require("../utils/ApiFeatures");
 // Get all projects
 exports.getAllProjects = async (req, res) => {
   try {
-    // Execute query
-    const features = new APIFeatures(Project.find(), req.query);
-    features.filter().sort().limitFields().paginate();
-    const projects = await features.query;
+    const projects = await Project.find().populate({
+      path: "category",
+      select: "name slug -_id",
+    });
+
     res.status(200).json({
       status: "success",
       results: projects.length,
@@ -41,10 +42,21 @@ exports.createProject = async (req, res) => {
   }
 };
 
-// Get a single project by ID
+// Get a single project by ID (with category name)
 exports.getProject = async (req, res) => {
   try {
-    const project = await Project.findById(req.params.id);
+    const project = await Project.findById(req.params.id).populate({
+      path: "category",
+      select: "name slug -_id", // only get category name and slug, exclude _id
+    });
+
+    if (!project) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Project not found",
+      });
+    }
+
     res.status(200).json({
       status: "success",
       data: { project },
@@ -57,6 +69,7 @@ exports.getProject = async (req, res) => {
     });
   }
 };
+
 // Update a project by ID
 exports.updateProject = async (req, res) => {
   try {
